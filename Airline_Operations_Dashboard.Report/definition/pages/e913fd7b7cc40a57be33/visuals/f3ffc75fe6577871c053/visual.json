@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "f3ffc75fe6577871c053",
+  "position": {
+    "x": 24,
+    "y": 1036,
+    "z": 20000,
+    "width": 1872,
+    "height": 36,
+    "tabOrder": 20000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "On-time = completed flight arriving less than 15 min after schedule (US DOT definition). Completed = not cancelled and not diverted. Delay averages use completed flights; early arrivals count as negative minutes.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#5F6B7A"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "2f5a03635fbaf5b5b145",
+  "position": {
+    "x": 968,
+    "y": 682,
+    "z": 8,
+    "height": 374,
+    "width": 928,
+    "tabOrder": 8
+  },
+  "visual": {
+    "visualType": "hundredPercentStackedBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "airlines"
+                    }
+                  },
+                  "Property": "AIRLINE"
+                }
+              },
+              "queryRef": "airlines.AIRLINE",
+              "nativeQueryRef": "AIRLINE",
+              "displayName": "Airline",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "flights"
+                    }
+                  },
+                  "Property": "Air System Delay"
+                }
+              },
+              "queryRef": "flights.Air System Delay",
+              "nativeQueryRef": "Air System Delay"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "flights"
+                    }
+                  },
+                  "Property": "Airline Delay"
+                }
+              },
+              "queryRef": "flights.Airline Delay",
+              "nativeQueryRef": "Airline Delay"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "flights"
+                    }
+                  },
+                  "Property": "Late Aircraft Delay"
+                }
+              },
+              "queryRef": "flights.Late Aircraft Delay",
+              "nativeQueryRef": "Late Aircraft Delay"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "flights"
+                    }
+                  },
+                  "Property": "Weather Delay"
+                }
+              },
+              "queryRef": "flights.Weather Delay",
+              "nativeQueryRef": "Weather Delay"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "flights"
+                    }
+                  },
+                  "Property": "Security Delay"
+                }
+              },
+              "queryRef": "flights.Security Delay",
+              "nativeQueryRef": "Security Delay"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "airlines"
+                  }
+                },
+                "Property": "AIRLINE"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Delay Cause Mix by Airline (% of delay minutes)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

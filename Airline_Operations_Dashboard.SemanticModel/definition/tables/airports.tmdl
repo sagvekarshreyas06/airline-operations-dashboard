@@ -1,0 +1,75 @@
+table airports
+	lineageTag: c2ffeb2d-8b7a-4fe0-81fa-31e2f7e00a80
+
+	column IATA_CODE
+		dataType: string
+		lineageTag: 3b5e7531-dbe8-4b3d-b737-f9177c7119e6
+		summarizeBy: none
+		sourceColumn: IATA_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column AIRPORT
+		dataType: string
+		lineageTag: 06ce7d4d-195a-48ab-b81f-26dd100a59b7
+		summarizeBy: none
+		sourceColumn: AIRPORT
+
+		annotation SummarizationSetBy = Automatic
+
+	column CITY
+		dataType: string
+		lineageTag: 59351b4c-002e-4ffe-8103-b63006af1163
+		summarizeBy: none
+		sourceColumn: CITY
+
+		annotation SummarizationSetBy = Automatic
+
+	column STATE
+		dataType: string
+		lineageTag: 4dade5a7-a247-4b43-bf64-8328de18000d
+		summarizeBy: none
+		sourceColumn: STATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column COUNTRY
+		dataType: string
+		lineageTag: 2208279f-0c95-482d-a38e-381719a62fe0
+		summarizeBy: none
+		sourceColumn: COUNTRY
+
+		annotation SummarizationSetBy = Automatic
+
+	column LATITUDE
+		dataType: double
+		lineageTag: be467360-97cc-4cf2-a90e-cab5ba8707f1
+		summarizeBy: none
+		sourceColumn: LATITUDE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LONGITUDE
+		dataType: double
+		lineageTag: 4928942f-ed21-49c1-a5b6-1b4c08fd0b9d
+		summarizeBy: none
+		sourceColumn: LONGITUDE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition airports = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\anush\Downloads\archive\airports.csv"),[Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"IATA_CODE", type text}, {"AIRPORT", type text}, {"CITY", type text}, {"STATE", type text}, {"COUNTRY", type text}, {"LATITUDE", type number}, {"LONGITUDE", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

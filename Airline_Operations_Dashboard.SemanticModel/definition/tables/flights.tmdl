@@ -1,0 +1,548 @@
+table flights
+	lineageTag: 074b10c4-2085-475d-9430-d4335b3d0c94
+
+	/// All scheduled flights, including cancelled and diverted flights.
+	measure 'Total Flights' =
+			
+			COUNTROWS(flights)
+		formatString: #,0
+		lineageTag: f5b67f6a-0bb3-47ae-928b-3b32766ebcab
+
+		changedProperty = IsHidden
+
+	/// Flights with CANCELLED = 1.
+	measure 'Cancelled Flights' =
+			
+			CALCULATE(
+			    COUNTROWS(flights),
+			    flights[CANCELLED] = 1
+			)
+		formatString: #,0
+		lineageTag: 8cf1d600-65a3-4e9a-ab4c-d092c2000ed6
+
+	/// Flights with DIVERTED = 1.
+	measure 'Diverted Flights' =
+			
+			CALCULATE(
+			    COUNTROWS(flights),
+			    flights[DIVERTED] = 1
+			)
+		formatString: #,0
+		lineageTag: a29c1a56-3c1a-46c4-9d00-6391e4ce04b3
+
+	/// Flights that were neither cancelled nor diverted.
+	measure 'Completed Flights' =
+			
+			CALCULATE(
+			    COUNTROWS(flights),
+			    flights[CANCELLED] = 0,
+			    flights[DIVERTED] = 0
+			)
+		formatString: #,0
+		lineageTag: 49905faa-282d-4453-ac35-c5feed492ad0
+
+	/// Completed flights that arrived less than 15 minutes after the scheduled arrival time (US DOT definition).
+	measure 'On Time Flights' = CALCULATE([Completed Flights], flights[ARRIVAL_DELAY] < 15)
+		formatString: #,0
+		lineageTag: f8406ffb-ad2c-4168-9cda-cf2c8e41f037
+
+	/// Completed flights that arrived 15 or more minutes late.
+	measure 'Delayed Flights' = CALCULATE([Completed Flights], flights[ARRIVAL_DELAY] >= 15)
+		formatString: #,0
+		lineageTag: 994ced53-d598-4dcb-9467-242f44bd1f90
+
+	/// On Time Flights / Completed Flights.
+	measure 'On Time %' =
+			
+			DIVIDE(
+			    [On Time Flights],
+			    [Completed Flights]
+			)
+		formatString: 0.0%
+		lineageTag: 97cc4951-b858-4dab-a96b-b10033104c96
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Cancelled Flights / Total Flights.
+	measure 'Cancellation Rate' =
+			
+			DIVIDE(
+			    [Cancelled Flights],
+			    [Total Flights]
+			)
+		formatString: 0.0%
+		lineageTag: 8ea4f9be-bcbc-4286-874d-5fc84f98ee0c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Average departure delay in minutes for completed flights only (cancelled and diverted flights excluded). Early departures count as negative minutes.
+	measure 'Avg Departure Delay' = CALCULATE(AVERAGE(flights[DEPARTURE_DELAY]), flights[CANCELLED] = 0, flights[DIVERTED] = 0)
+		formatString: 0.0
+		lineageTag: 72f28f70-e4bc-4aab-8eea-0bca6b11f10d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Average arrival delay in minutes for completed flights only. Early arrivals count as negative minutes.
+	measure 'Avg Arrival Delay' = CALCULATE(AVERAGE(flights[ARRIVAL_DELAY]), flights[CANCELLED] = 0, flights[DIVERTED] = 0)
+		formatString: 0.0
+		lineageTag: 1211760d-a4c5-438d-9837-eddf8da9e4cd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Flight Distance' =
+			
+			AVERAGE(flights[DISTANCE])
+		formatString: #,0.0
+		lineageTag: 0b2b5cfb-e4b6-4b0a-a902-22d35a0023c0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Distance' =
+			
+			SUM(flights[DISTANCE])
+		formatString: #,0
+		lineageTag: 49d53fa3-3177-40ed-bbef-d4a1e3104fa4
+
+	measure 'Avg Taxi Out' =
+			
+			AVERAGE(flights[TAXI_OUT])
+		formatString: #,0.0
+		lineageTag: 01b804fa-0799-40df-aff3-66b8e4271ffb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Taxi In' =
+			
+			AVERAGE(flights[TAXI_IN])
+		formatString: #,0.0
+		lineageTag: f9d8f0ee-2dbf-4dea-860b-b49b2906f9d9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Air Time' =
+			
+			AVERAGE(flights[AIR_TIME])
+		formatString: #,0.0
+		lineageTag: 17f89b3f-faca-40fb-b7b1-5cc25fed41e7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Scheduled Flight Time' =
+			
+			AVERAGE(flights[SCHEDULED_TIME])
+		formatString: #,0.0
+		lineageTag: 99547fe9-9498-44ca-88bc-2cc8974f31cf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Flight Duration' =
+			
+			AVERAGE(flights[ELAPSED_TIME])
+		formatString: #,0.0
+		lineageTag: 94c84717-cf93-47b3-839e-f51732e9d25d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Air System Delay' =
+			
+			SUM(flights[AIR_SYSTEM_DELAY])
+		formatString: #,0
+		lineageTag: 12eea1cd-a066-49c6-861b-97bd0f038550
+
+	measure 'Airline Delay' =
+			
+			SUM(flights[AIRLINE_DELAY])
+		formatString: #,0
+		lineageTag: 8a86a6e2-23fd-4e8c-b730-615fc6abf328
+
+	measure 'Late Aircraft Delay' =
+			
+			SUM(flights[LATE_AIRCRAFT_DELAY])
+		formatString: #,0
+		lineageTag: 4e56e8d6-c51b-4c87-b865-ad3ce114b3c5
+
+	measure 'Weather Delay' =
+			
+			SUM(flights[WEATHER_DELAY])
+		formatString: #,0
+		lineageTag: a8b7885c-8231-408d-8604-607f5570becc
+
+	measure 'Security Delay' =
+			
+			SUM(flights[SECURITY_DELAY])
+		formatString: #,0
+		lineageTag: 17e0bfc5-d2de-46f4-9266-519fa6306987
+
+	measure 'Delay Cause Minutes' =
+			
+			SWITCH(
+			    SELECTEDVALUE('Delay Causes'[Delay Cause]),
+			    "Air System", [Air System Delay],
+			    "Airline", [Airline Delay],
+			    "Late Aircraft", [Late Aircraft Delay],
+			    "Weather", [Weather Delay],
+			    "Security", [Security Delay],
+			    0
+			)
+		formatString: #,0
+		lineageTag: 89a9101a-186a-4bbe-bc8b-8d84100cb094
+
+	/// Name of the airline passed to the Airline Detail drill-through page.
+	measure 'Airline Detail Title' = SELECTEDVALUE(airlines[AIRLINE], "All airlines")
+		lineageTag: f7f222c4-571b-41b5-8816-515ae49ecf58
+
+	column YEAR
+		dataType: int64
+		formatString: 0
+		lineageTag: 2696dfbd-0011-4039-b369-ba983f45053b
+		summarizeBy: sum
+		sourceColumn: YEAR
+
+		annotation SummarizationSetBy = Automatic
+
+	column MONTH
+		dataType: int64
+		formatString: 0
+		lineageTag: 2b11ecb5-b649-45a0-ac3f-0098e7482195
+		summarizeBy: sum
+		sourceColumn: MONTH
+
+		annotation SummarizationSetBy = Automatic
+
+	column DAY
+		dataType: int64
+		formatString: 0
+		lineageTag: 03ccc05f-126b-401c-89c1-fc3f4ee6197e
+		summarizeBy: sum
+		sourceColumn: DAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column DAY_OF_WEEK
+		dataType: int64
+		formatString: 0
+		lineageTag: 92d65bf5-3c03-4d2c-97b7-e4a45780383a
+		summarizeBy: sum
+		sourceColumn: DAY_OF_WEEK
+
+		annotation SummarizationSetBy = Automatic
+
+	column AIRLINE
+		dataType: string
+		lineageTag: c5c0921c-6803-49b0-b08d-ed1f03d00f5e
+		summarizeBy: none
+		sourceColumn: AIRLINE
+
+		annotation SummarizationSetBy = Automatic
+
+	column FLIGHT_NUMBER
+		dataType: int64
+		formatString: 0
+		lineageTag: ff368438-cd8c-4983-bb7f-326a81addc55
+		summarizeBy: sum
+		sourceColumn: FLIGHT_NUMBER
+
+		annotation SummarizationSetBy = Automatic
+
+	column TAIL_NUMBER
+		dataType: string
+		lineageTag: cb47cb9b-5b2d-40fe-8055-a7e668bd77a6
+		summarizeBy: none
+		sourceColumn: TAIL_NUMBER
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORIGIN_AIRPORT
+		dataType: string
+		lineageTag: 3e9731a3-a5be-4127-9973-83680425b944
+		summarizeBy: none
+		sourceColumn: ORIGIN_AIRPORT
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESTINATION_AIRPORT
+		dataType: string
+		lineageTag: 7b68fd32-8560-4594-a94f-72b6f5cc9d20
+		summarizeBy: none
+		sourceColumn: DESTINATION_AIRPORT
+
+		annotation SummarizationSetBy = Automatic
+
+	column SCHEDULED_DEPARTURE
+		dataType: int64
+		formatString: 0
+		lineageTag: 53ab20e3-9a2c-410d-9409-98f6450b0bef
+		summarizeBy: sum
+		sourceColumn: SCHEDULED_DEPARTURE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPARTURE_TIME
+		dataType: int64
+		formatString: 0
+		lineageTag: ad6b5be2-1f07-4470-8881-aeb01dd46603
+		summarizeBy: sum
+		sourceColumn: DEPARTURE_TIME
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPARTURE_DELAY
+		dataType: int64
+		formatString: 0
+		lineageTag: b44e2529-3670-4f12-84a0-f754ef2a6398
+		summarizeBy: sum
+		sourceColumn: DEPARTURE_DELAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column TAXI_OUT
+		dataType: int64
+		formatString: 0
+		lineageTag: bde7cc8e-6b23-4bcd-9a44-2f65b274cd57
+		summarizeBy: sum
+		sourceColumn: TAXI_OUT
+
+		annotation SummarizationSetBy = Automatic
+
+	column WHEELS_OFF
+		dataType: int64
+		formatString: 0
+		lineageTag: 8f368fe7-db9a-48cf-bbda-6cc69c44208c
+		summarizeBy: sum
+		sourceColumn: WHEELS_OFF
+
+		annotation SummarizationSetBy = Automatic
+
+	column SCHEDULED_TIME
+		dataType: int64
+		formatString: 0
+		lineageTag: 1d6dc5fc-a3cf-4135-8d2e-8ec22cb1cb72
+		summarizeBy: sum
+		sourceColumn: SCHEDULED_TIME
+
+		annotation SummarizationSetBy = Automatic
+
+	column ELAPSED_TIME
+		dataType: int64
+		formatString: 0
+		lineageTag: fe8b07d7-01f5-415c-b440-3074db20842e
+		summarizeBy: sum
+		sourceColumn: ELAPSED_TIME
+
+		annotation SummarizationSetBy = Automatic
+
+	column AIR_TIME
+		dataType: int64
+		formatString: 0
+		lineageTag: 763acb62-b5a6-4623-a042-1bedb22125ce
+		summarizeBy: sum
+		sourceColumn: AIR_TIME
+
+		annotation SummarizationSetBy = Automatic
+
+	column DISTANCE
+		dataType: int64
+		formatString: 0
+		lineageTag: 6971eebd-9287-45f8-82d7-4a0d1a3eeb0b
+		summarizeBy: sum
+		sourceColumn: DISTANCE
+
+		annotation SummarizationSetBy = Automatic
+
+	column WHEELS_ON
+		dataType: int64
+		formatString: 0
+		lineageTag: 56b44bd7-532e-4f61-b677-18bb171b5baa
+		summarizeBy: sum
+		sourceColumn: WHEELS_ON
+
+		annotation SummarizationSetBy = Automatic
+
+	column TAXI_IN
+		dataType: int64
+		formatString: 0
+		lineageTag: a2707fc1-998b-4103-a664-0a061ef5f10c
+		summarizeBy: sum
+		sourceColumn: TAXI_IN
+
+		annotation SummarizationSetBy = Automatic
+
+	column SCHEDULED_ARRIVAL
+		dataType: int64
+		formatString: 0
+		lineageTag: af2d9c26-301b-4e7f-a3aa-649c560dc93a
+		summarizeBy: sum
+		sourceColumn: SCHEDULED_ARRIVAL
+
+		annotation SummarizationSetBy = Automatic
+
+	column ARRIVAL_TIME
+		dataType: int64
+		formatString: 0
+		lineageTag: c850a929-c027-4e4f-9a36-98feaeac6a54
+		summarizeBy: sum
+		sourceColumn: ARRIVAL_TIME
+
+		annotation SummarizationSetBy = Automatic
+
+	column ARRIVAL_DELAY
+		dataType: int64
+		formatString: 0
+		lineageTag: e4af7c18-2bff-4c20-9bcf-e1fb6d02d025
+		summarizeBy: sum
+		sourceColumn: ARRIVAL_DELAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column DIVERTED
+		dataType: int64
+		formatString: 0
+		lineageTag: 03fe33ad-571d-414f-91bb-a64d1c8161a1
+		summarizeBy: sum
+		sourceColumn: DIVERTED
+
+		annotation SummarizationSetBy = Automatic
+
+	column CANCELLED
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c98e5d2-9485-462c-96dd-be44b630c7e5
+		summarizeBy: sum
+		sourceColumn: CANCELLED
+
+		annotation SummarizationSetBy = Automatic
+
+	column CANCELLATION_REASON
+		dataType: string
+		lineageTag: bb3da29f-0ccf-4c47-9d42-0da9ac71411c
+		summarizeBy: none
+		sourceColumn: CANCELLATION_REASON
+
+		annotation SummarizationSetBy = Automatic
+
+	column AIR_SYSTEM_DELAY
+		dataType: int64
+		formatString: 0
+		lineageTag: 9ff11000-0955-4665-962d-f674ee0468f1
+		summarizeBy: sum
+		sourceColumn: AIR_SYSTEM_DELAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column SECURITY_DELAY
+		dataType: int64
+		formatString: 0
+		lineageTag: e32c4a1d-9942-4d58-9987-8d81e701b65b
+		summarizeBy: sum
+		sourceColumn: SECURITY_DELAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column AIRLINE_DELAY
+		dataType: int64
+		formatString: 0
+		lineageTag: cdabf973-72cf-4d17-8df9-6a144e0c6bbf
+		summarizeBy: sum
+		sourceColumn: AIRLINE_DELAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column LATE_AIRCRAFT_DELAY
+		dataType: int64
+		formatString: 0
+		lineageTag: 9fc3ab9b-630c-464f-a87b-4adc50a2cc5a
+		summarizeBy: sum
+		sourceColumn: LATE_AIRCRAFT_DELAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEATHER_DELAY
+		dataType: int64
+		formatString: 0
+		lineageTag: 587362e1-50f2-474c-ba26-d3b63b5d8ca1
+		summarizeBy: sum
+		sourceColumn: WEATHER_DELAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Flight Date' =
+			
+			DATE(
+			    flights[YEAR],
+			    flights[MONTH],
+			    flights[DAY]
+			)
+		formatString: General Date
+		lineageTag: a30bfda8-c48a-4d8b-8182-3503d638bdce
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Route =
+			
+			flights[ORIGIN_AIRPORT] & " → " & flights[DESTINATION_AIRPORT]
+		lineageTag: 48fc2603-1018-4e26-824e-72b5f06afdee
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cancellation Reason' =
+			
+			SWITCH(
+			    flights[CANCELLATION_REASON],
+			    "A", "Airline / Carrier",
+			    "B", "Weather",
+			    "C", "National Air System",
+			    "D", "Security",
+			    "Not Cancelled"
+			)
+		lineageTag: d064682b-0311-498b-9f34-d4d348e3821c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Scheduled Departure Hour' =
+			
+			INT(flights[SCHEDULED_DEPARTURE] / 100)
+		formatString: 0
+		lineageTag: cfd46748-d0d7-402e-a396-23e11dfe7dd6
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Departure Time Band' =
+			
+			SWITCH(
+			    TRUE(),
+			    flights[Scheduled Departure Hour] < 6, "Night",
+			    flights[Scheduled Departure Hour] < 12, "Morning",
+			    flights[Scheduled Departure Hour] < 18, "Afternoon",
+			    "Evening"
+			)
+		lineageTag: 7617d7a5-00c6-458d-97e9-5788911ba7e5
+		summarizeBy: none
+		sortByColumn: 'Departure Time Band Order'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Departure Time Band Order' = SWITCH(TRUE(), flights[Scheduled Departure Hour] < 6, 1, flights[Scheduled Departure Hour] < 12, 2, flights[Scheduled Departure Hour] < 18, 3, 4)
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ea8609d9-94f8-4944-867f-2abd0241b9a6
+		summarizeBy: none
+
+	partition flights = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\anush\Downloads\archive\flights.csv"),[Delimiter=",", Columns=31, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"YEAR", Int64.Type}, {"MONTH", Int64.Type}, {"DAY", Int64.Type}, {"DAY_OF_WEEK", Int64.Type}, {"AIRLINE", type text}, {"FLIGHT_NUMBER", Int64.Type}, {"TAIL_NUMBER", type text}, {"ORIGIN_AIRPORT", type text}, {"DESTINATION_AIRPORT", type text}, {"SCHEDULED_DEPARTURE", Int64.Type}, {"DEPARTURE_TIME", Int64.Type}, {"DEPARTURE_DELAY", Int64.Type}, {"TAXI_OUT", Int64.Type}, {"WHEELS_OFF", Int64.Type}, {"SCHEDULED_TIME", Int64.Type}, {"ELAPSED_TIME", Int64.Type}, {"AIR_TIME", Int64.Type}, {"DISTANCE", Int64.Type}, {"WHEELS_ON", Int64.Type}, {"TAXI_IN", Int64.Type}, {"SCHEDULED_ARRIVAL", Int64.Type}, {"ARRIVAL_TIME", Int64.Type}, {"ARRIVAL_DELAY", Int64.Type}, {"DIVERTED", Int64.Type}, {"CANCELLED", Int64.Type}, {"CANCELLATION_REASON", type text}, {"AIR_SYSTEM_DELAY", Int64.Type}, {"SECURITY_DELAY", Int64.Type}, {"AIRLINE_DELAY", Int64.Type}, {"LATE_AIRCRAFT_DELAY", Int64.Type}, {"WEATHER_DELAY", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

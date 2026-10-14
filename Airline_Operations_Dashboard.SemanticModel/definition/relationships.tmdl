@@ -1,0 +1,21 @@
+relationship dc2535e2-e11f-bff2-8493-2c478494866e
+	fromColumn: flights.AIRLINE
+	toColumn: airlines.IATA_CODE
+
+relationship 5d626d45-6f35-9754-2ec6-241fa76f16bb
+	fromColumn: flights.ORIGIN_AIRPORT
+	toColumn: airports.IATA_CODE
+
+relationship a5ccf597-7e59-13e0-ab81-7bb471dbe50b
+	fromColumn: flights.DESTINATION_AIRPORT
+	toColumn: 'Destination Airports'.IATA_CODE
+
+relationship ea9f024b-85f9-480f-b722-44478ba22b18
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.Date
+	toColumn: LocalDateTable_a02cd48b-5ccd-4b16-869b-ac68289a2788.Date
+
+relationship e7461f35-7531-686e-d802-83bb94013360
+	fromColumn: flights.'Flight Date'
+	toColumn: Date.Date
+

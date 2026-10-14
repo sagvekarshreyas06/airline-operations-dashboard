@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "2be1d161e7ef1d6f4bd4",
+  "position": {
+    "x": 980,
+    "y": 84,
+    "z": 20000,
+    "width": 916,
+    "height": 64,
+    "tabOrder": 20000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Note: in the source data, October 2015 flights use numeric airport IDs instead of IATA codes, so airport-level visuals (airport names, map, routes, Origin Airport filter) do not include October. Flight-level totals still include October.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#5F6B7A"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

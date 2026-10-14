@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "51809a6537110271e0f5",
+  "position": {
+    "x": 968,
+    "y": 164,
+    "z": 2,
+    "height": 116,
+    "width": 456
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "flights"
+                    }
+                  },
+                  "Property": "Avg Flight Distance"
+                }
+              },
+              "queryRef": "flights.Avg Flight Distance",
+              "nativeQueryRef": "Avg Flight Distance"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

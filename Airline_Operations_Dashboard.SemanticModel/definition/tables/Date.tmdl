@@ -1,0 +1,116 @@
+table Date
+	lineageTag: 786114d3-1eab-4790-b226-7ae47b14f180
+
+	column Date
+		formatString: General Date
+		lineageTag: ae0c0471-0cdf-420c-80c8-0ce66e2a36bb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: ea9f024b-85f9-480f-b722-44478ba22b18
+			defaultHierarchy: LocalDateTable_a02cd48b-5ccd-4b16-869b-ac68289a2788.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		formatString: 0
+		lineageTag: f8e43d33-1ad7-4e31-a22c-395af54a7bed
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		formatString: 0
+		lineageTag: eec22707-d899-47e4-a834-7f54f709fef6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		lineageTag: 35577b41-0875-42d2-b28c-f66a85720a06
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month]
+		sortByColumn: 'Month Number'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Short'
+		lineageTag: 9753261e-24c8-4861-9679-ed3953140b18
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Short]
+		sortByColumn: 'Month Number'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		lineageTag: 4f4aa171-cdb0-4950-a615-5488a78b349c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		formatString: 0
+		lineageTag: 752aeb8c-a1b6-4d04-a274-1d8470308fa6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week Number'
+		formatString: 0
+		lineageTag: 674aab29-5ac5-4d12-9d16-8d5a10c75613
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day of Week Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week'
+		lineageTag: ef6996d2-fa96-4269-85ae-a8fe5128b826
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day of Week]
+		sortByColumn: 'Day of Week Number'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week Short'
+		lineageTag: 52c5a924-7e3a-495f-9f48-c85b73924a00
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day of Week Short]
+		sortByColumn: 'Day of Week Number'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = calculated
+		mode: import
+		source =
+				
+				ADDCOLUMNS(
+				    CALENDAR(DATE(2015,1,1), DATE(2015,12,31)),
+				    "Year", YEAR([Date]),
+				    "Month Number", MONTH([Date]),
+				    "Month", FORMAT([Date], "MMMM"),
+				    "Month Short", FORMAT([Date], "MMM"),
+				    "Quarter", "Q" & FORMAT([Date], "Q"),
+				    "Day", DAY([Date]),
+				    "Day of Week Number", WEEKDAY([Date], 2),
+				    "Day of Week", FORMAT([Date], "dddd"),
+				    "Day of Week Short", FORMAT([Date], "ddd")
+				)
+
+	annotation PBI_Id = 6b75668ef9404d28a15051b9edaa9d6c
+

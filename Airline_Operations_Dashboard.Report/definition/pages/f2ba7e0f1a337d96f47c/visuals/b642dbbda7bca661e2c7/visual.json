@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "b642dbbda7bca661e2c7",
+  "position": {
+    "x": 24,
+    "y": 1036,
+    "z": 20000,
+    "width": 1872,
+    "height": 36,
+    "tabOrder": 20000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Delayed = completed flight arriving 15+ min late. Cancellation reasons count cancelled flights only. Delay-cause minutes are only recorded by the source for flights delayed 15+ min.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#5F6B7A"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

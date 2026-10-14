@@ -1,0 +1,12 @@
+# Power BI Desktop local files (cache.abf holds the loaded data and is large)
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# Binary report files and source data (download the dataset separately, see README)
+*.pbix
+*.abf
+*.csv
+
+# Windows
+Thumbs.db
+desktop.ini

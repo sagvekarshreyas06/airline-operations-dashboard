@@ -1,0 +1,24 @@
+table 'Delay Causes'
+	lineageTag: 5c757fc2-295f-4f02-b42f-4433eb4c3278
+
+	column 'Delay Cause'
+		dataType: string
+		lineageTag: 553e32ea-8b6d-4d9a-ae6c-822204fab6b6
+		summarizeBy: none
+		sourceColumn: Delay Cause
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Delay Causes' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WcswsUgiuLC5JzVWK1QFzczLzUsFsn8SSVAWgQHJRYloJWCQ8NbEkI7UIzA5OTS4tyiypVIqNBQA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Delay Cause" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Delay Cause", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

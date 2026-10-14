@@ -1,0 +1,33 @@
+table airlines
+	lineageTag: fee55c3d-bbfa-47ec-a9dd-e4a0d8f28b15
+
+	column IATA_CODE
+		dataType: string
+		lineageTag: edd709ed-d20f-4b4f-97d4-f4c3a48d3f29
+		summarizeBy: none
+		sourceColumn: IATA_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column AIRLINE
+		dataType: string
+		lineageTag: 288eadee-0aa3-407b-8135-bff5f83c72b7
+		summarizeBy: none
+		sourceColumn: AIRLINE
+
+		annotation SummarizationSetBy = Automatic
+
+	partition airlines = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\anush\Downloads\archive\airlines.csv"),[Delimiter=",", Columns=2, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"IATA_CODE", type text}, {"AIRLINE", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,143 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "7ca4483500df24dc0c5e",
+  "position": {
+    "x": 1283,
+    "y": 296,
+    "z": 6,
+    "height": 390,
+    "width": 613,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "map",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "airports"
+                    }
+                  },
+                  "Property": "IATA_CODE"
+                }
+              },
+              "queryRef": "airports.IATA_CODE",
+              "nativeQueryRef": "IATA_CODE",
+              "active": true,
+              "displayName": "Airport"
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "flights"
+                    }
+                  },
+                  "Property": "Total Flights"
+                }
+              },
+              "queryRef": "flights.Total Flights",
+              "nativeQueryRef": "Total Flights"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "airports"
+                    }
+                  },
+                  "Property": "LATITUDE"
+                }
+              },
+              "queryRef": "airports.LATITUDE",
+              "nativeQueryRef": "LATITUDE",
+              "displayName": "Latitude"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "airports"
+                    }
+                  },
+                  "Property": "LONGITUDE"
+                }
+              },
+              "queryRef": "airports.LONGITUDE",
+              "nativeQueryRef": "LONGITUDE",
+              "displayName": "Longitude"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Origin Airport Traffic Network'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "72c99fa2793922289271",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "airports"
+              }
+            },
+            "Property": "IATA_CODE"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "94f2925609426a425fb3",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "flights"
+              }
+            },
+            "Property": "Total Flights"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
