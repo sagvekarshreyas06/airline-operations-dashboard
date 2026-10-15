@@ -13,26 +13,6 @@
     "visualType": "map",
     "query": {
       "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "airports"
-                    }
-                  },
-                  "Property": "IATA_CODE"
-                }
-              },
-              "queryRef": "airports.IATA_CODE",
-              "nativeQueryRef": "IATA_CODE",
-              "active": true,
-              "displayName": "Airport"
-            }
-          ]
-        },
         "Size": {
           "projections": [
             {

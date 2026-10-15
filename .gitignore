@@ -10,3 +10,7 @@
 # Windows
 Thumbs.db
 desktop.ini
+
+# small source CSVs are included in data/ (flights.csv is included as data/flights.zip via Git LFS)
+!data/airlines.csv
+!data/airports.csv

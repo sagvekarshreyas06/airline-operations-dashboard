@@ -4,23 +4,43 @@ A Power BI dashboard analysing **5.8 million U.S. domestic flights from 2015**: 
 
 Built as a third-year BSc Computer Science project.
 
+## Screenshots
+
+**Executive Overview**
+![Executive Overview](images/01-executive-overview.png)
+
+**Airline Performance**
+![Airline Performance](images/02-airline-performance.png)
+
+**Network & Airports**
+![Network & Airports](images/03-network-airports.png)
+
+**Delay & Cancellation**
+![Delay & Cancellation](images/04-delay-cancellation.png)
+
+**Time & Seasonal Analysis**
+![Time & Seasonal Analysis](images/05-time-seasonal-analysis.png)
+
+**Airline Detail** (drill-through, shown for Delta Air Lines)
+![Airline Detail](images/06-airline-detail-drillthrough.png)
+
 ## Dataset
 
-[2015 Flight Delays and Cancellations](https://www.kaggle.com/datasets/usdot/flight-delays) (U.S. Department of Transportation, via Kaggle). Three files are used:
+[2015 Flight Delays and Cancellations](https://www.kaggle.com/datasets/usdot/flight-delays) (U.S. Department of Transportation, via Kaggle). The data used is in the [`data/`](data) folder:
 
 | File | Rows | Used for |
 |---|---|---|
-| `flights.csv` | 5,819,079 | One row per scheduled flight (fact table) |
-| `airlines.csv` | 14 | Airline names |
-| `airports.csv` | 322 | Airport names, city, state, latitude/longitude |
+| `data/flights.zip` | 5,819,079 | `flights.csv`, one row per scheduled flight (fact table), compressed from 565 MB to 183 MB |
+| `data/airlines.csv` | 14 | Airline names |
+| `data/airports.csv` | 322 | Airport names, city, state, latitude/longitude |
 
-The CSV files are **not included** in this repository (`flights.csv` is 565 MB).
+`flights.zip` is stored with [Git LFS](https://git-lfs.com) because it is larger than GitHub's 100 MB file limit. Download it from the GitHub page, or run `git lfs install` before cloning.
 
 ## How to open
 
-1. Download the three CSV files from Kaggle into one folder.
+1. Unzip `data/flights.zip` so that `flights.csv` sits next to `airlines.csv` and `airports.csv`.
 2. Open `Airline_Operations_Dashboard.pbip` in Power BI Desktop.
-3. *Transform data* → for the `flights`, `airports`, `airlines` and `Destination Airports` queries, change the **Source** step to your folder.
+3. *Transform data* → for the `flights`, `airports`, `airlines` and `Destination Airports` queries, change the **Source** step to your `data` folder.
 4. *Home → Refresh*.
 
 The project is saved in Power BI Project (PBIP) format, so the report and data model are plain text files that can be version-controlled.
@@ -88,4 +108,6 @@ Airline, Month and Origin Airport slicers are synced across pages 1–5.
 Airline_Operations_Dashboard.pbip            open this file in Power BI Desktop
 Airline_Operations_Dashboard.Report/         report pages and visuals (PBIR format)
 Airline_Operations_Dashboard.SemanticModel/  tables, relationships and DAX measures (TMDL format)
+data/                                        source data (flights.zip via Git LFS, airlines.csv, airports.csv)
+images/                                      dashboard screenshots
 ```
